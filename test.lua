@@ -3,7 +3,7 @@
 local ns = {}
 UnitFactionGroup = function() return "Alliance" end
 local bags = {}
-GetItemCount = function(id) return bags[id] or 0 end
+C_Item = { GetItemCount = function(id) return bags[id] or 0 end }
 GetRealmName = function() return "Test" end
 local completed, onQuest = {}, {}
 C_QuestLog = {

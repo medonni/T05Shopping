@@ -25,7 +25,7 @@ In:
 - Clicking an AH row with the AH open opens Blizzard's buy page for it
   (`AuctionHouseFrame:SelectBrowseResult`) with the missing quantity set. You press Buy Now.
 
-- Quest chain (`ns.CHAIN` in Data.lua, IDs from RestedXP's `Guides/Classic-0.5.lua`):
+- Quest chain (`ns.CHAIN`, generated into Guide.lua from RestedXP's turn-ins):
   each row links to the quest that consumes it. Once turned in
   (`C_QuestLog.IsQuestFlaggedCompleted`), the row shows "Turned in" and stops counting.
   Rows for the quest you're on show "(on quest)".

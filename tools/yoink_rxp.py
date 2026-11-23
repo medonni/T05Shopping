@@ -12,13 +12,12 @@ import re
 import sys
 from pathlib import Path
 
-PARTS = re.compile(r"#name (Part ([1-4]): [^\n]*)")
+PARTS = re.compile(r"#name Part ([1-4]):")
 # RestedXP's color placeholders -> real WoW color codes
 COLORS = {
     "WARN": "ffff9933", "LOOT": "ff00d1ff", "FRIENDLY": "ff40ff40",
     "ENEMY": "ffff5555", "BUY": "ffffd100", "PICK": "ffffd100",
 }
-GAME_FLAGS = {"sod": False}  # WoW Forever is not Season of Discovery
 
 
 def lua_str(s):
@@ -35,20 +34,11 @@ def split_cond(line):
 
 
 def resolve_flags(cond):
-    """Evaluate game-version tokens now; keep faction/class tokens for runtime.
-    Returns the remaining condition string, or None when the line never applies."""
-    keep = []
-    for token in cond.split():
-        alts = token.split("/")
-        flags = [a for a in alts if a.lstrip("!") in GAME_FLAGS]
-        if not flags:
-            keep.append(token)
-            continue
-        if len(flags) != len(alts):
-            raise ValueError(f"mixed condition {token!r}")
-        if not any(GAME_FLAGS[a.lstrip("!")] != a.startswith("!") for a in alts):
-            return None
-    return " ".join(keep)
+    """WoW Forever is not Season of Discovery: drop "sod" lines, keep "!sod" ones.
+    Returns the faction/class condition left for runtime, or None to drop the line."""
+    if cond == "sod":
+        return None
+    return cond.replace("!sod", "").strip()
 
 
 def clean(text):
@@ -63,7 +53,7 @@ def parse(guide_file, zone_ids):
         m = PARTS.search(block)
         if not m or "Set Guide" not in block:
             continue
-        part = int(m.group(2))
+        part = int(m.group(1))
         body = block.split("\nstep", 1)[1] if "\nstep" in block else ""
         for raw in re.split(r"\n\s*step", "\n" + body):
             lines = raw.split("\n")
@@ -71,7 +61,7 @@ def parse(guide_file, zone_ids):
             step_cond = resolve_flags(split_cond(head)[1]) if "<<" in head else ""
             if step_cond is None:
                 continue
-            step = {"part": part, "cond": step_cond, "lines": [], "accept": [], "turnin": [], "go": None, "optional": False}
+            step = {"part": part, "cond": step_cond, "lines": [], "accept": [], "turnin": [], "go": None, "optional": False, "names": {}}
             for line in lines[1:]:
                 t = line.strip()
                 if not t or t.startswith("--"):
@@ -95,6 +85,10 @@ def parse(guide_file, zone_ids):
                 if ">>" in text:
                     shown = clean(text.split(">>", 1)[1])
                     if q:  # quest name -> a real quest link (hover, shift-click, Wowhead)
+                        shown = shown.replace("Turn in Accept ", "Turn in ")  # (RestedXP typo, quest 8996)
+                        n = re.match(r"^(?:Accept|Turn in) (.+)$", shown)
+                        if n:
+                            step["names"][int(q.group(2))] = n.group(1)
                         shown = re.sub(r"^(Accept|Turn in) (.+)$",
                                        lambda m: "%s |cffffff00|Hquest:%s:60|h[%s]|h|r" % (m.group(1), q.group(2), m.group(2)), shown)
                     if shown:
@@ -127,7 +121,7 @@ def forever_fixes(steps):
         raise SystemExit("forever_fixes: start of the Silithus detour not found")
     steps[start:end + 1] = [{
         "part": 4, "cond": "", "optional": False, "accept": [], "turnin": [],
-        "go": (1428, 74.0, 66.0, "Burning Steppes", ""),
+        "go": (1428, 74.0, 66.0, "Burning Steppes", ""), "names": {},
         "lines": [
             ("Kill |cffff5555Executor Asharell|r and loot the |cff00d1ff[Ash of Asharell]|r", ""),
             ("|cffff9933Level 62 elite in a cave in southern|r |cFFfa9602Burning Steppes|r|cffff9933. Bring a group|r", ""),
@@ -136,6 +130,23 @@ def forever_fixes(steps):
         ],
     }]
     return steps
+
+
+def chain(steps):
+    """The quest chain in guide order: one entry per turned-in quest name with every
+    class/faction variant ID. A quest only one faction ever turns in gets its faction."""
+    out = {}
+    for s in steps:
+        for qid, cond in s["turnin"]:
+            name = s["names"].get(qid)
+            if not name:
+                continue
+            e = out.setdefault(name, {"part": s["part"], "ids": [], "factions": set()})
+            if qid not in e["ids"]:
+                e["ids"].append(qid)
+            tokens = (s["cond"] + " " + cond).split()
+            e["factions"].add(next((t for t in tokens if t in ("Alliance", "Horde")), None))
+    return out
 
 
 def zones(rxp):
@@ -179,6 +190,11 @@ def emit(steps):
             parts.append("turnin = " + pairs(s["turnin"]))
         out.append("  { " + ", ".join(parts) + " },")
     out.append("}")
+    out += ["", "-- The quest chain in turn-in order (ids = every class/faction variant)", "ns.CHAIN = {"]
+    for name, e in chain(steps).items():
+        faction = ", faction = " + lua_str(next(iter(e["factions"]))) if len(e["factions"]) == 1 and None not in e["factions"] else ""
+        out.append("  { part = %d, name = %s, ids = { %s }%s }," % (e["part"], lua_str(name), ", ".join(map(str, e["ids"])), faction))
+    out += ["}", "ns.STEP = {}", "for _, s in ipairs(ns.CHAIN) do ns.STEP[s.name] = s end"]
     return "\n".join(out) + "\n"
 
 

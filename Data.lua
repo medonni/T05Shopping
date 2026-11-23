@@ -35,43 +35,5 @@ ns.ITEMS = {
   { sec = "farm", id = 22138, qty = 40, quest = "Final Preparations", where = "BRS orcs" },
 }
 
--- The quest chain in RestedXP's order (RXPGuides/Guides/Classic-0.5.lua, "Set Guide"
--- Parts 1-4). ids = every class/faction variant; a step counts as done when any of
--- them is turned in. Items above link to a step by their `quest` name.
--- (Left out: the guide's optional Aurel Goldleaf / Dukes of the Council / Medallion of
--- Station, which unrelated play can complete.)
-ns.CHAIN = {
-  { part = 1, name = "An Earnest Proposition", ids = { 8905, 8906, 8907, 8908, 8909, 8910, 8911, 8912, 8913, 8914, 8915, 8916, 8917, 8918, 8919, 8920 } },
-  { part = 2, name = "A Supernatural Device", ids = { 8922, 8923 } },
-  { part = 2, name = "The Ectoplasmic Distiller", ids = { 8921 } },
-  { part = 2, name = "Hunting for Ectoplasm", ids = { 8924 } },
-  { part = 2, name = "A Portable Power Source", ids = { 8925 } },
-  { part = 2, name = "A Shifty Merchant", ids = { 8928 } },
-  { part = 2, name = "Return to Deliana", ids = { 8977 }, faction = "Alliance" },
-  { part = 2, name = "Return to Mokvar", ids = { 8978 }, faction = "Horde" },
-  { part = 2, name = "Just Compensation", ids = { 8926, 8927, 8931, 8932, 8933, 8934, 8935, 8936, 8937, 8938, 8939, 8940, 8941, 8942, 8943, 8944 } },
-  { part = 3, name = "In Search of Anthion", ids = { 8929, 8930 } },
-  { part = 3, name = "Dead Man's Plea", ids = { 8945 } },
-  { part = 3, name = "Proof of Life", ids = { 8946 } },
-  { part = 3, name = "Anthion's Strange Request", ids = { 8947 } },
-  { part = 3, name = "Anthion's Old Friend", ids = { 8948 } },
-  { part = 3, name = "Falrin's Vendetta", ids = { 8949 } },
-  { part = 3, name = "The Instigator's Enchantment", ids = { 8950 } },
-  { part = 3, name = "The Challenge", ids = { 9015 } },
-  { part = 3, name = "Anthion's Parting Words", ids = { 8951, 8952, 8953, 8954, 8955, 8956, 8957, 8958, 8959, 9016, 9017, 9018, 9019, 9020, 9021, 9022 } },
-  { part = 4, name = "Bodley's Unfortunate Fate", ids = { 8960 } },
-  { part = 4, name = "Three Kings of Flame", ids = { 8961 } },
-  { part = 4, name = "Components of Importance", ids = { 8962, 8963, 8964, 8965 } },
-  { part = 4, name = "The Left Piece of Lord Valthalak's Amulet", ids = { 8966, 8967, 8968, 8969 } },
-  { part = 4, name = "I See Alcaz Island In Your Future...", ids = { 8970 } },
-  { part = 4, name = "More Components of Importance", ids = { 8985, 8986, 8987, 8988 } },
-  { part = 4, name = "The Right Piece of Lord Valthalak's Amulet", ids = { 8989, 8990, 8991, 8992 } },
-  { part = 4, name = "Final Preparations", ids = { 8994 } },
-  { part = 4, name = "Mea Culpa, Lord Valthalak", ids = { 8995 } },
-  { part = 4, name = "Return to Bodley", ids = { 8996 } },
-  { part = 4, name = "Back to the Beginning", ids = { 8997, 8998 } },
-  { part = 4, name = "Saving the Best for Last", ids = { 8999, 9000, 9001, 9002, 9003, 9004, 9005, 9006, 9007, 9008, 9009, 9010, 9011, 9012, 9013, 9014 } },
-}
+-- (The quest chain, ns.CHAIN / ns.STEP, is generated into Guide.lua by tools/yoink_rxp.py)
 ns.PART_NAMES = { "Bracers", "Belt & Gloves", "Pants, Shoulders & Boots", "Helm & Chest" }
-ns.STEP = {}
-for i, s in ipairs(ns.CHAIN) do s.index = i; ns.STEP[s.name] = s end

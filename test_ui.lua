@@ -23,12 +23,15 @@ function Stub.GetName(o) return o._name end
 function Stub.SetText(o, t) o._text = t end
 function Stub.GetText(o) return o._text end
 function Stub.RegisterEvent() end
-Stub.TitleText = false -- (a field on real frames, not a method)
 function Stub.GetStringHeight() return 26 end
 function Stub.GetVerticalScrollRange() return 400 end
 
 local frames = {}
-CreateFrame = function(_, name) local o = New(name); frames[#frames + 1] = o; return o end
+CreateFrame = function(_, name, _, template)
+  local o = New(name); frames[#frames + 1] = o
+  if template == "BasicFrameTemplateWithInset" then o.TitleText = New() end -- (the template's title)
+  return o
+end
 UIParent, GameTooltip, Minimap = New(), New(), New()
 Minimap.GetCenter = function() return 100, 100 end
 Minimap.GetEffectiveScale = function() return 1 end
@@ -36,9 +39,11 @@ GetCursorPosition = function() return 100, 180 end -- straight above the minimap
 UISpecialFrames, SlashCmdList = {}, {}
 tinsert = table.insert
 UnitFactionGroup = function() return "Horde" end
-GetItemCount = function(id) return id == 20520 and 4 or 0 end -- Dark Runes done
-GetItemInfo = function(id) if id ~= 22138 then return "Item" .. id, "|Hitem:" .. id .. "|h", 2 end end -- one not loaded
-GetItemIcon = function() return 134400 end
+C_Item = {
+  GetItemCount = function(id) return id == 20520 and 4 or 0 end, -- Dark Runes done
+  GetItemInfo = function(id) if id ~= 22138 then return "Item" .. id, "|Hitem:" .. id .. "|h", 2 end end, -- one not loaded
+  GetItemIconByID = function() return 134400 end,
+}
 GetCoinTextureString = function(c) return "C" .. c end
 ITEM_QUALITY_COLORS = { [2] = { hex = "|cff1eff00" } }
 IsModifiedClick = function() return true end

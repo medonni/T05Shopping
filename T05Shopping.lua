@@ -5,8 +5,7 @@ local ADDON, ns = ...
 ---------------------------------------------------------------------------
 local GOLD = 10000
 local STALE_DAYS = 3 -- an Auctionator price older than this is shown as stale
-local GetItemInfo = (C_Item and C_Item.GetItemInfo) or GetItemInfo
-local GetItemCount = (C_Item and C_Item.GetItemCount) or GetItemCount
+local GetItemInfo, GetItemCount = C_Item.GetItemInfo, C_Item.GetItemCount
 
 local function Round(x) return math.floor(x + 0.5) end
 
@@ -51,9 +50,7 @@ end
 
 -- Quest state of a chain step: "done" (any variant turned in), "active" (in your
 -- quest log) or nil
-local QL = C_QuestLog or {}
-local IsCompleted = QL.IsQuestFlaggedCompleted or IsQuestFlaggedCompleted
-local IsOnQuest = QL.IsOnQuest or function(id) return (GetQuestLogIndexByID(id) or 0) > 0 end
+local IsCompleted, IsOnQuest = C_QuestLog.IsQuestFlaggedCompleted, C_QuestLog.IsOnQuest
 
 function ns.QuestStatus(step)
   if not step then return nil end
@@ -247,9 +244,7 @@ local function Text(parent, font, layer)
   return fs
 end
 
-local title = f.TitleText or Text(f, "GameFontHighlight")
-if not f.TitleText then title:SetPoint("TOP", 0, -5) end
-title:SetText("T0.5 Shopping List")
+f.TitleText:SetText("T0.5 Shopping List")
 
 local subtitle = Text(f, "GameFontHighlight")
 subtitle:SetPoint("TOPLEFT", 16, -34)
@@ -369,10 +364,6 @@ StaticPopupDialogs.T05SHOPPING_URL = {
   timeout = 0, whileDead = true, hideOnEscape = true, preferredIndex = 3,
 }
 
-function ns.ShowWowhead(id)
-  StaticPopup_Show("T05SHOPPING_URL", nil, nil, WOWHEAD:format(id))
-end
-
 local function QuestOf(link) return tonumber(link and link:match("^quest:(%d+)")) end
 
 local function LinkEnter(self, link, text)
@@ -397,7 +388,7 @@ local function LinkClick(self, link, text)
   if IsModifiedClick("CHATLINK") then
     ChatEdit_InsertLink(text)
   else
-    ns.ShowWowhead(id)
+    StaticPopup_Show("T05SHOPPING_URL", nil, nil, WOWHEAD:format(id))
   end
 end
 
@@ -529,8 +520,7 @@ local function FillRow(b, r)
   local sub = ns.QuestLink(it.quest) .. (r.onQuest and " |cffffd100(on quest)|r" or "") .. (it.where and (" · " .. it.where) or "")
   if it.id then
     local name, _, quality = GetItemInfo(it.id)
-    local icon = (C_Item and C_Item.GetItemIconByID or GetItemIcon)(it.id)
-    b.icon:SetTexture(icon or QUESTION)
+    b.icon:SetTexture(C_Item.GetItemIconByID(it.id) or QUESTION)
     if name then
       local c = ITEM_QUALITY_COLORS and ITEM_QUALITY_COLORS[quality or 1]
       b.name:SetText(c and (c.hex .. name .. "|r") or name)
@@ -641,9 +631,7 @@ g:SetSize(GW, H)
 g:SetPoint("TOPLEFT", f, "TOPRIGHT", -2, 0)
 g:Hide()
 tinsert(UISpecialFrames, g:GetName())
-local gTitle = g.TitleText or Text(g, "GameFontHighlight")
-if not g.TitleText then gTitle:SetPoint("TOP", 0, -5) end
-gTitle:SetText("T0.5 Quest Guide")
+g.TitleText:SetText("T0.5 Quest Guide")
 
 local partText = Text(g, "GameFontNormal")
 partText:SetPoint("TOP", 0, -34)
@@ -910,9 +898,6 @@ local function CreateMinimapButton()
   -- (named, a Button, 31px, child of Minimap: what minimap-button collectors look for)
   local b = CreateFrame("Button", "T05ShoppingMinimapButton", Minimap)
   b:SetSize(31, 31)
-  b:SetFrameStrata("MEDIUM")
-  b:SetFrameLevel(8)
-  b:RegisterForClicks("LeftButtonUp", "RightButtonUp")
   b:RegisterForDrag("LeftButton")
   b:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
   local bg = b:CreateTexture(nil, "BACKGROUND")
@@ -924,7 +909,6 @@ local function CreateMinimapButton()
   icon:SetPoint("CENTER")
   icon:SetTexture("Interface\\Icons\\INV_Misc_Note_01")
   icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-  b.icon = icon
   local border = b:CreateTexture(nil, "OVERLAY")
   border:SetSize(53, 53)
   border:SetPoint("TOPLEFT")
