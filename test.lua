@@ -55,7 +55,7 @@ assert(ns.Cond("", "Horde", "Mage") and ns.Cond("Alliance Druid", "Alliance", "D
 assert(not ns.Cond("Alliance Druid", "Horde", "Druid") and not ns.Cond("!Rogue", "Horde", "Rogue"))
 assert(ns.Cond("Warrior/Paladin/Hunter", "Horde", "Hunter") and not ns.Cond("Warrior/Paladin", "Horde", "Mage"))
 
--- The yoinked guide: all 4 parts, filtered to an Alliance Warrior, no other-faction NPCs
+-- The guide data: all 4 parts, filtered to an Alliance Warrior, no other-faction NPCs
 local steps, cur = ns.GuideSteps()
 local parts, text = {}, {}
 for _, st in ipairs(steps) do parts[st.part] = true; text[#text + 1] = st.text end

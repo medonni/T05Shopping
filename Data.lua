@@ -35,5 +35,5 @@ ns.ITEMS = {
   { sec = "farm", id = 22138, qty = 40, quest = "Final Preparations", where = "BRS orcs" },
 }
 
--- (The quest chain, ns.CHAIN / ns.STEP, is generated into Guide.lua by tools/yoink_rxp.py)
+-- (The quest chain, ns.CHAIN / ns.STEP, lives in Guide.lua next to the guide steps)
 ns.PART_NAMES = { "Bracers", "Belt & Gloves", "Pants, Shoulders & Boots", "Helm & Chest" }

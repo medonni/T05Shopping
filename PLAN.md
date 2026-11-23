@@ -32,8 +32,8 @@ In:
 - Header: "Step N/29: <next quest>", the step after the last one turned in.
 - "Guide" button: a panel docked to the right with every step of the chain for your
   class and faction, opened at the step you're on, with map-pin buttons (TomTom if
-  installed, else the game's own map pin). Data is `Guide.lua`, generated once from
-  RestedXP's guide by `tools/yoink_rxp.py`; RestedXP is never read at runtime.
+  installed, else the game's own map pin). Data is `Guide.lua`, adapted from
+  RestedXP's guide and kept in this repo; RestedXP is never read at runtime.
   Guide.lua is CC BY-NC-SA 4.0 (RestedXP's license); the panel shows the credit.
 
 Out (add later only if needed):
