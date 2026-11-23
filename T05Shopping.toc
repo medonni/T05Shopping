@@ -1,0 +1,15 @@
+## Interface: 16001
+## Title: T0.5 Shopping List
+## Notes: Every gold fee, AH mat and farm item for the Tier 0.5 (Dungeon Set 2) chain, live-priced from its own AH scan or Auctionator, in one list. /t05
+## Version: 0.1.0
+## SavedVariablesPerCharacter: T05ShoppingDB
+## SavedVariables: T05ShoppingPrices
+## OptionalDeps: Auctionator
+## IconTexture: Interface\Icons\INV_Misc_Note_01
+## AddonCompartmentFunc: T05Shopping_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: T05Shopping_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: T05Shopping_OnAddonCompartmentLeave
+
+Data.lua
+Guide.lua
+T05Shopping.lua
