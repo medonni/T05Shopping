@@ -1,0 +1,9 @@
+package-as: T05Shopping
+
+ignore:
+  - test.lua
+  - test_ui.lua
+  - PLAN.md
+  - PRODUCT.md
+  - logo.png
+  - logo.svg

@@ -162,6 +162,14 @@ lua5.1 test_ui.lua
 
 Both print `ok`. The UI test catches nil errors and typos, not layout; layout still needs a look in game.
 
+## Releasing
+
+Push a version tag (`git tag v0.2.0 && git push --tags`). GitHub Actions runs the tests,
+then the [BigWigs packager](https://github.com/BigWigsMods/packager) builds a
+`T05Shopping/` zip (without the tests, plans and logo), and uploads it to GitHub Releases,
+plus CurseForge when the `.toc` has `## X-Curse-Project-ID` and the repo has a
+`CF_API_KEY` secret.
+
 ## License
 
-`Guide.lua` is CC BY-NC-SA 4.0, see `NOTICE`.
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/): free to share and change with credit, not for commercial use, changes under the same license. See `LICENSE` and `NOTICE`.

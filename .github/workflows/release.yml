@@ -1,0 +1,32 @@
+# Push a tag like v0.2.0 to test, package and upload a release.
+# Uploads go to every site that has its ID in the .toc and its secret set:
+#   CurseForge: "## X-Curse-Project-ID" + CF_API_KEY
+#   Wago:       "## X-Wago-ID"          + WAGO_API_TOKEN
+#   GitHub Releases: always
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      CF_API_KEY: ${{ secrets.CF_API_KEY }}
+      WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
+      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # the changelog is built from the commits since the last tag
+
+      - name: Test
+        run: |
+          sudo apt-get install -y lua5.1
+          lua5.1 test.lua
+          lua5.1 test_ui.lua
+
+      - uses: BigWigsMods/packager@v2
