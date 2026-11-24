@@ -168,7 +168,7 @@ Push a version tag (`git tag v0.2.0 && git push --tags`). GitHub Actions runs th
 then the [BigWigs packager](https://github.com/BigWigsMods/packager) builds a
 `T05Shopping/` zip (without the tests, plans and logo), and uploads it to GitHub Releases,
 plus CurseForge when the `.toc` has `## X-Curse-Project-ID` and the repo has a
-`CF_API_KEY` secret.
+`CF_API_TOKEN` secret.
 
 ## License
 
