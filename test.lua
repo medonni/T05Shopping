@@ -113,5 +113,24 @@ assert(lo == 250000 and kind == "stale" and src == "scan", kind)
 UnitFactionGroup = function() return "Horde" end
 assert(select(5, ns.Price(ns.ITEMS[1])) == "sheet", "Horde has its own AH")
 
+-- Components of Importance: all four versions show until you pick one; then the
+-- other three are hidden (here: the Brilliant Sword version in both rounds)
+local function GuideText()
+  local all = {}
+  for _, st in ipairs(ns.GuideSteps()) do all[#all + 1] = st.text end
+  return table.concat(all, "\n")
+end
+assert(GuideText():find("Hive'Regal", 1, true), "no version picked: all shown")
+completed[8964], onQuest[8987] = true, true
+local g = GuideText()
+assert(g:find("Brilliant Sword of Zealotry", 1, true) and g:find("Jarien", 1, true), "own version shown")
+assert(not g:find("Hive'Regal", 1, true) and not g:find("Isalien", 1, true) and not g:find("Kormok", 1, true), "other versions hidden")
+completed[8964], onQuest[8987] = nil, nil
+-- Just turned in Three Kings of Flame, on the Brilliant Sword version: next stop Tyr's Hand
+completed[8961], onQuest[8964] = true, true
+local steps, cur = ns.GuideSteps()
+assert(steps[cur].text:find("Tyr's Hand", 1, true), "next step: " .. steps[cur].text)
+completed[8961], onQuest[8964] = nil, nil
+
 assert(ns.Money(25050) == "2|cffffd700g|r 50|cffc7c7cfs|r")
 print("ok")

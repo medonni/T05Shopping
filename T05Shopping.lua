@@ -108,9 +108,16 @@ function ns.GuideSteps()
     for _, q in ipairs(list or {}) do if Applies(q[2]) then r[#r + 1] = q[1] end end
     return r
   end
+  -- picked[id] = the version of id's round you took (on it or turned in)
+  local picked = {}
+  for _, ids in ipairs(ns.VERSIONS or {}) do
+    for _, id in ipairs(ids) do
+      if IsCompleted(id) or IsOnQuest(id) then for _, j in ipairs(ids) do picked[j] = id end end
+    end
+  end
   local out, last = {}, 0
   for _, s in ipairs(ns.GUIDE or {}) do
-    if Applies(s.cond) then
+    if Applies(s.cond) and not (s.q and picked[s.q] and picked[s.q] ~= s.q) then
       local lines = {}
       for _, l in ipairs(s.lines) do if Applies(l[2]) then lines[#lines + 1] = l[1] end end
       if #lines > 0 then
