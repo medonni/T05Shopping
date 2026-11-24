@@ -1,11 +1,9 @@
 -- T0.5 quest guide for T05Shopping: the data this addon reads, edited by hand.
 --
--- Based on RestedXP Guides (https://github.com/RestedXP/RXPGuides), CC BY-NC-SA 4.0
--- (https://creativecommons.org/licenses/by-nc-sa/4.0/). Reworded, checked against
--- Wowhead and adapted for WoW Forever. This file is shared under the same license.
+-- License: CC BY-NC-SA 4.0, see NOTICE.
 local _, ns = ...
 
--- { part, cond (faction/class, RestedXP syntax), opt, lines = { {text, cond} },
+-- { part, cond (faction/class), opt, lines = { {text, cond} },
 --   go = { mapID, x, y, zone, cond }, accept/turnin = { {questID, cond} } }
 ns.GUIDE = {
   { part = 1, lines = { { "Get |T132608:0|t[|cff00d1ffWildheart Bracers|r] (BoE, drops in |cFFfa9602Stratholme|r)", "Druid" }, { "Get |T132616:0|t[|cff00d1ffBeaststalker's Bindings|r] (BoE, drops in |cFFfa9602Stratholme|r and |cFFfa9602Blackrock Spire|r)", "Hunter" }, { "Get |T133365:0|t[|cff00d1ffMagister's Bindings|r] (BoE, drops in |cFFfa9602Blackrock Spire|r)", "Mage" }, { "Get |T132613:0|t[|cff00d1ffLightforge Bracers|r] (BoE, drops in |cFFfa9602Stratholme|r)", "Paladin" }, { "Get |T132520:0|t[|cff00d1ffDevout Bracers|r] (BoE, drops in |cFFfa9602Stratholme|r)", "Priest" }, { "Get |T132606:0|t[|cff00d1ffShadowcraft Bracers|r] (BoE, drops in |cFFfa9602Scholomance|r)", "Rogue" }, { "Get |T132601:0|t[|cff00d1ffBindings of Elements|r] (BoE, drops in |cFFfa9602Stratholme|r)", "Shaman" }, { "Get |T132612:0|t[|cff00d1ffDreadmist Bracers|r] (BoE, drops in |cFFfa9602Blackrock Spire|r)", "Warlock" }, { "Get |T132617:0|t[|cff00d1ffBracers of Valor|r] (BoE, drops in |cFFfa9602Blackrock Spire|r)", "Warrior" }, { "|cffff9933Or buy one on the Auction House|r", "" } } },

@@ -162,6 +162,6 @@ lua5.1 test_ui.lua
 
 Both print `ok`. The UI test catches nil errors and typos, not layout; layout still needs a look in game.
 
-## Credits
+## License
 
-Quest guide text based on RestedXP Guides, CC BY-NC-SA 4.0 (applies to `Guide.lua` only).
+`Guide.lua` is CC BY-NC-SA 4.0, see `NOTICE`.

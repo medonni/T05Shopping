@@ -50,7 +50,7 @@ for _, r in ipairs(bySecQ.farm) do if r.it.id == 21928 then blood = r end end
 assert(blood.turnedIn and blood.done and blood.missing == 0, "farm row for a turned-in quest")
 completed[8912], completed[8947], onQuest[8948] = nil, nil, nil
 
--- Conditions, RestedXP syntax
+-- Conditions
 assert(ns.Cond("", "Horde", "Mage") and ns.Cond("Alliance Druid", "Alliance", "Druid"))
 assert(not ns.Cond("Alliance Druid", "Horde", "Druid") and not ns.Cond("!Rogue", "Horde", "Rogue"))
 assert(ns.Cond("Warrior/Paladin/Hunter", "Horde", "Hunter") and not ns.Cond("Warrior/Paladin", "Horde", "Mage"))
@@ -63,7 +63,7 @@ text = table.concat(text, "\n")
 assert(parts[1] and parts[2] and parts[3] and parts[4], "all four parts")
 assert(text:find("Deliana", 1, true) and not text:find("Mokvar", 1, true), "Alliance only")
 assert(text:find("Bracers of Valor", 1, true) and not text:find("Wildheart Bracers", 1, true), "Warrior pieces only")
-assert(not text:find("RXP_", 1, true) and not text:find("Tarnished Undermine", 1, true), "no RXP codes, no SoD lines")
+assert(not text:find("RXP_", 1, true) and not text:find("Tarnished Undermine", 1, true), "no raw color codes, no SoD lines")
 assert(cur == 1 and not steps[1].past, "fresh character starts at step 1")
 -- Quest IDs follow your class and faction (Alliance Warrior here)
 assert(ns.QuestID("An Earnest Proposition") == 8912 and ns.QuestID("Three Kings of Flame") == 8961)

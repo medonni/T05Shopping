@@ -656,9 +656,6 @@ gScroll:SetPoint("BOTTOMRIGHT", -32, 30)
 local gContent = CreateFrame("Frame", nil, gScroll)
 gContent:SetSize(STEP_W, 1)
 gScroll:SetScrollChild(gContent)
-local credit = Text(g, "GameFontDisableSmall")
-credit:SetPoint("BOTTOM", 0, 12)
-credit:SetText("Guide based on RestedXP, CC BY-NC-SA 4.0")
 
 -- Map pin: TomTom if you have it, else the game's own map pin
 local function Waypoint(go)
