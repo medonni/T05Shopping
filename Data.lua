@@ -25,7 +25,7 @@ ns.ITEMS = {
   { sec = "fee", key = "earnest", name = "An Earnest Proposition", lo = 20, hi = 20, quest = "An Earnest Proposition", where = "Deliana (Ironforge) / Mokvar (Orgrimmar)" },
   { sec = "fee", key = "distiller", name = "The Ectoplasmic Distiller", lo = 40, hi = 40, quest = "The Ectoplasmic Distiller", where = "Mux Manascrambler, Gadgetzan" },
   { sec = "fee", key = "rod", id = 21939, name = "Fel Elemental Rod", lo = 40, hi = 40, quest = "A Shifty Merchant", where = "Vi'el, Darkwhisper Gorge" },
-  { sec = "fee", key = "brazier", id = 22014, name = "Hallowed Brazier", lo = 127, hi = 127, quest = "Three Kings of Flame", where = "Argent Dawn QM, Honored", note = "Guides disagree: 120g (RestedXP, Warcraft Tavern) or about 127g (ConquestCapped). Check the vendor." },
+  { sec = "fee", key = "brazier", id = 22014, name = "Hallowed Brazier", lo = 127, hi = 127, quest = "Three Kings of Flame", where = "Argent Dawn QM, Honored", note = "Guides disagree: 120g or about 127g. Check the vendor." },
 
   { sec = "farm", id = 21928, qty = 15, faction = "Alliance", quest = "An Earnest Proposition", where = "Winterspring" },
   { sec = "farm", id = 22381, qty = 15, faction = "Horde", quest = "An Earnest Proposition", where = "Silithus" },

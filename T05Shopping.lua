@@ -76,7 +76,7 @@ function ns.Progress()
   return { step = nextStep, n = last + 1, total = #steps, active = ns.QuestStatus(nextStep) == "active" }
 end
 
--- RestedXP-style condition ("Alliance Druid", "Warrior/Paladin", "!Rogue"): every
+-- Step condition ("Alliance Druid", "Warrior/Paladin", "!Rogue"): every
 -- space-separated token must match; "/" means any of; "!" negates
 function ns.Cond(cond, faction, class)
   if not cond or cond == "" then return true end
@@ -658,7 +658,7 @@ gContent:SetSize(STEP_W, 1)
 gScroll:SetScrollChild(gContent)
 local credit = Text(g, "GameFontDisableSmall")
 credit:SetPoint("BOTTOM", 0, 12)
-credit:SetText("Guide adapted from RestedXP (CC BY-NC-SA 4.0)")
+credit:SetText("Guide based on RestedXP, CC BY-NC-SA 4.0")
 
 -- Map pin: TomTom if you have it, else the game's own map pin
 local function Waypoint(go)

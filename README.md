@@ -108,8 +108,8 @@ Farm:
 
 Notes:
 - Goblin Rocket Fuel counts the worst case of 10. You need 3 to 10, and up to 8 come free from the previous quest.
-- The Hallowed Brazier price differs between guides (120g on RestedXP and Warcraft Tavern, about 127g on ConquestCapped). Check the vendor.
-- The guide holds 255 steps; the quest chain is 29 tracked quests per faction.
+- Guides disagree on the Hallowed Brazier price (120g or about 127g). Check the vendor.
+- The guide holds 225 steps; the quest chain is 29 tracked quests per faction.
 
 ## Install
 
@@ -164,8 +164,4 @@ Both print `ok`. The UI test catches nil errors and typos, not layout; layout st
 
 ## Credits
 
-`Guide.lua` is adapted from [RestedXP Guides](https://github.com/RestedXP/RXPGuides)
-(Classic T0.5 "Set Guide", Parts 1 to 4), licensed
-[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/), and that file is
-shared under the same license. Changes: converted to a plain Lua table, Season of Discovery
-lines removed, Three Kings of Flame rewritten for WoW Forever. RestedXP is never read at runtime.
+Quest guide text based on RestedXP Guides, CC BY-NC-SA 4.0 (applies to `Guide.lua` only).

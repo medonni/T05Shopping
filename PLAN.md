@@ -25,22 +25,20 @@ In:
 - Clicking an AH row with the AH open opens Blizzard's buy page for it
   (`AuctionHouseFrame:SelectBrowseResult`) with the missing quantity set. You press Buy Now.
 
-- Quest chain (`ns.CHAIN`, generated into Guide.lua from RestedXP's turn-ins):
+- Quest chain (`ns.CHAIN`, in Guide.lua, built from the guide's turn-ins):
   each row links to the quest that consumes it. Once turned in
   (`C_QuestLog.IsQuestFlaggedCompleted`), the row shows "Turned in" and stops counting.
   Rows for the quest you're on show "(on quest)".
 - Header: "Step N/29: <next quest>", the step after the last one turned in.
 - "Guide" button: a panel docked to the right with every step of the chain for your
   class and faction, opened at the step you're on, with map-pin buttons (TomTom if
-  installed, else the game's own map pin). Data is `Guide.lua`, adapted from
-  RestedXP's guide and kept in this repo; RestedXP is never read at runtime.
-  Guide.lua is CC BY-NC-SA 4.0 (RestedXP's license); the panel shows the credit.
+  installed, else the game's own map pin). Data is `Guide.lua`, kept in this repo.
+  Guide.lua is CC BY-NC-SA 4.0 (see its header); the panel shows the credit.
 
 Out (add later only if needed):
 - "Send to Auctionator" shopping-list export (`Auctionator.API.v1.CreateShoppingList`
   exists in the Forever build and is the cheap next step).
 - Counting items still in the mailbox.
-- TomTom waypoints to the quest NPCs (the RestedXP guide already has them).
 - The 8 Tier 0 pieces (the sheet leaves them out too).
 - Minimap button, locales, options panel.
 
