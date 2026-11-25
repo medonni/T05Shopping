@@ -57,7 +57,7 @@ local chatLink
 ChatEdit_InsertLink = function(l) chatLink = l; return true end
 C_Timer = { After = function(_, fn) fn() end }
 GetRealmName = function() return "Test" end
-C_QuestLog = { IsQuestFlaggedCompleted = function(id) return id == 8920 end, IsOnQuest = function() return false end }
+C_QuestLog = { IsQuestFlaggedCompleted = function(id) return id == 84162 end, IsOnQuest = function() return false end }
 UnitClass = function() return "Warrior", "WARRIOR" end
 local pinned
 TomTom = { AddWaypoint = function(_, map, x, y) pinned = { map, x, y } end }
@@ -160,7 +160,7 @@ for _, o in ipairs(frames) do
   end
 end
 assert(pins > 0 and pinned and pinned[1] > 1000 and pinned[2] < 1, "waypoint sent to TomTom")
-fire("QUEST_TURNED_IN", 8920) -- repaints both panels
+fire("QUEST_TURNED_IN", 84162) -- repaints both panels
 guideButton._scripts.OnClick(guideButton)
 assert(not guide:IsShown(), "guide toggles closed")
 

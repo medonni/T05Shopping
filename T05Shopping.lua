@@ -219,6 +219,9 @@ end
 
 if not CreateFrame then return end -- (test.lua stops here)
 
+-- Forever moved the global into C_CurrencyInfo; plain text if neither exists
+local Coin = GetCoinTextureString or (C_CurrencyInfo and C_CurrencyInfo.GetCoinTextureString) or ns.Money
+
 ---------------------------------------------------------------------------
 -- Window
 ---------------------------------------------------------------------------
@@ -612,9 +615,9 @@ function Render()
   if t.leftLo <= 0 then
     leftValue:SetText("|cff40ff40nothing, you're set|r")
   elseif t.sheet then
-    leftValue:SetText(GetCoinTextureString(t.leftLo) .. "  to  " .. GetCoinTextureString(t.leftHi))
+    leftValue:SetText(Coin(t.leftLo) .. "  to  " .. Coin(t.leftHi))
   else
-    leftValue:SetText(GetCoinTextureString(t.leftLo))
+    leftValue:SetText(Coin(t.leftLo))
   end
   local pct = t.allLo > 0 and (1 - t.leftLo / t.allLo) or 1
   bar:SetValue(pct)

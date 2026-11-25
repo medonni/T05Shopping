@@ -37,7 +37,7 @@ assert(t3.done == 1 and bySec.ah[#bySec.ah].it.id == 14342, "done row sorted las
 bags[14342] = 0
 local p0 = ns.Progress()
 assert(p0.n == 1 and p0.step.name == "An Earnest Proposition" and p0.total == 29, "start of chain")
-completed[8912] = true -- Alliance Warrior's An Earnest Proposition
+completed[84154] = true -- Alliance Warrior's An Earnest Proposition
 completed[8947] = true -- Anthion's Strange Request (skipped steps in between don't matter)
 onQuest[8948] = true
 local p1 = ns.Progress()
@@ -48,7 +48,7 @@ assert(tq.leftLo == 5535000 - 200000 - 2280000, "turned-in quests drop out of go
 local blood
 for _, r in ipairs(bySecQ.farm) do if r.it.id == 21928 then blood = r end end
 assert(blood.turnedIn and blood.done and blood.missing == 0, "farm row for a turned-in quest")
-completed[8912], completed[8947], onQuest[8948] = nil, nil, nil
+completed[84154], completed[8947], onQuest[8948] = nil, nil, nil
 
 -- Conditions
 assert(ns.Cond("", "Horde", "Mage") and ns.Cond("Alliance Druid", "Alliance", "Druid"))
@@ -66,10 +66,10 @@ assert(text:find("Bracers of Valor", 1, true) and not text:find("Wildheart Brace
 assert(not text:find("RXP_", 1, true) and not text:find("Tarnished Undermine", 1, true), "no raw color codes, no SoD lines")
 assert(cur == 1 and not steps[1].past, "fresh character starts at step 1")
 -- Quest IDs follow your class and faction (Alliance Warrior here)
-assert(ns.QuestID("An Earnest Proposition") == 8912 and ns.QuestID("Three Kings of Flame") == 8961)
+assert(ns.QuestID("An Earnest Proposition") == 84154 and ns.QuestID("Three Kings of Flame") == 8961)
 assert(ns.QuestLink("Three Kings of Flame") == "|cffffff00|Hquest:8961:60|h[Three Kings of Flame]|h|r")
 assert(ns.QuestLink("Vendor item") == "Vendor item", "non-quests stay plain")
-assert(text:find("|Hquest:8912:60|h[An Earnest Proposition]|h", 1, true), "guide turn-ins are quest links")
+assert(text:find("|Hquest:84154:60|h[An Earnest Proposition]|h", 1, true), "guide turn-ins are quest links")
 -- Vendor items aren't priced from the AH
 assert(select(5, ns.Price({ sec = "fee", id = 22014, lo = 127, hi = 127 })) == "sheet")
 
@@ -84,10 +84,10 @@ for _, r in ipairs(bySecB.fee) do if r.it.key == "brazier" then brazier = r end 
 assert(brazier.turnedIn and brazier.missing == 0, "brazier done with its quest")
 completed[8961] = nil
 -- Turning in An Earnest Proposition moves the guide past it
-completed[8912] = true
+completed[84154] = true
 local steps2, cur2 = ns.GuideSteps()
 assert(cur2 > 1 and steps2[cur2 - 1].past and steps2[cur2].part == 2, "after Earnest: Part 2, got part " .. steps2[cur2].part)
-completed[8912] = nil
+completed[84154] = nil
 
 -- Live Auctionator price wins over the sheet
 Auctionator = { API = { v1 = {
@@ -133,4 +133,15 @@ assert(steps[cur].text:find("Tyr's Hand", 1, true), "next step: " .. steps[cur].
 completed[8961], onQuest[8964] = nil, nil
 
 assert(ns.Money(25050) == "2|cffffd700g|r 50|cffc7c7cfs|r")
+print("ok")
+
+-- Forever renumbered the class quests (8912 -> 84154): being on the new one
+-- ticks the accept step, and a Classic-era turn-in still counts for the chain
+UnitFactionGroup = function() return "Alliance" end
+onQuest[84154] = true
+local gs = ns.GuideSteps()
+assert(gs[3].done and gs[3].past, "on Forever's An Earnest Proposition")
+onQuest[84154], completed[8912] = nil, true
+assert(ns.Progress().n == 2, "Classic 8912 still counts as done")
+completed[8912] = nil
 print("ok")
