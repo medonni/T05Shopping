@@ -154,7 +154,11 @@ end
 bags[22338] = 24
 assert(not AshStep().done, "24 ash is not enough")
 bags[22338] = 25
-assert(AshStep().done, "25 ash ticks the step")
+assert(AshStep().done and AshStep().past, "25 ash ticks the step")
+for _, st in ipairs(ns.GuideSteps()) do
+  if st.text:find("Volcanic Ash") then break end
+  assert(not st.past, "ash farmed early must not tick earlier steps: " .. st.text:sub(1, 40))
+end
 bags[22338] = nil
 
 -- Objective steps tick off from the quest log: 2 of 3 ectoplasm types done
@@ -162,8 +166,30 @@ local function Step(name)
   for _, st in ipairs(ns.GuideSteps()) do if st.text:find("Collect 12 |cff00d1ff" .. name) then return st end end
 end
 objectives[8924] = { { finished = true }, { finished = true }, { finished = false } }
+assert(not Step("Scorched").done, "objectives of a quest you're not on don't count")
+onQuest[8924] = true
 assert(Step("Scorched").done and Step("Frozen").done, "finished objectives tick")
 assert(not Step("Stable").done, "unfinished objective stays open")
-objectives[8924], completed[8924] = nil, true
+objectives[8924], onQuest[8924], completed[8924] = nil, nil, true
 assert(Step("Stable").done, "turned in counts as done")
 completed[8924] = nil
+
+-- Every need names a real chain quest (a typo would never tick)
+for _, s in ipairs(ns.GUIDE) do
+  for _, name in ipairs(s.need or {}) do assert(ns.STEP[name], "unknown need: " .. name) end
+end
+
+-- On In Search of Anthion: the accept ticks, but Part 3 gear and mats you
+-- don't have yet stay open, until the quest that uses them is turned in
+onQuest[8929] = true
+local function Find(pat)
+  for _, st in ipairs(ns.GuideSteps()) do if st.text:find(pat, 1, true) then return st end end
+end
+assert(Find("In Search of Anthion").past, "accept ticks")
+assert(not Find("Legplates of Valor").past and not Find("Spaulders of Valor").past, "gear stays open")
+for _, st in ipairs(ns.GuideSteps()) do
+  if st.part == 3 and st.text:find("You need") then assert(not st.past, "mats stay open") end
+end
+completed[8959] = true -- Alliance Warrior Anthion's Parting Words turned in
+assert(Find("Legplates of Valor").past, "turned in: gear ticks")
+onQuest[8929], completed[8959] = nil, nil

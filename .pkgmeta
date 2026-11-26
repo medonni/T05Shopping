@@ -7,3 +7,7 @@ ignore:
   - PRODUCT.md
   - logo.png
   - logo.svg
+
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown

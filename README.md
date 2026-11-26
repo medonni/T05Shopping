@@ -50,8 +50,9 @@ Shift-click links the item in chat.
 
 The **Guide** button docks a panel to the right with every step of the chain, split into
 four parts (Bracers; Belt & Gloves; Pants, Shoulders & Boots; Helm & Chest). It opens at
-the step you're on, ticks off steps your quest log proves done, and each step with a
-location has a map-pin button (TomTom waypoint if installed, otherwise the game's own map pin).
+the step you're on and ticks off steps your quest log proves done. Collect steps tick from
+your bags or quest objectives; gear and materials steps tick once the quest that uses them
+is turned in. Each step with a location has a map-pin button (TomTom waypoint if installed, otherwise the game's own map pin).
 
 Quest names anywhere in the addon are real quest links: hover for the tooltip and your
 status, shift-click to link in chat, click for a copyable Wowhead URL.
@@ -164,8 +165,9 @@ Both print `ok`. The UI test catches nil errors and typos, not layout; layout st
 
 ## Releasing
 
-Push a version tag (`git tag v0.2.0 && git push --tags`). GitHub Actions runs the tests,
-then the [BigWigs packager](https://github.com/BigWigsMods/packager) builds a
+Add the version's notes to the top of `CHANGELOG.md` (the release notes on GitHub and
+CurseForge are taken from it), then push a version tag (`git tag v0.2.0 && git push --tags`). GitHub Actions runs the
+tests, then the [BigWigs packager](https://github.com/BigWigsMods/packager) builds a
 `T05Shopping/` zip (without the tests, plans and logo), and uploads it to GitHub Releases,
 plus CurseForge when the `.toc` has `## X-Curse-Project-ID` and the repo has a
 `CF_API_TOKEN` secret.

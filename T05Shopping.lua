@@ -130,18 +130,25 @@ function ns.GuideSteps()
         elseif #accept > 0 then
           st.done = true
           for _, id in ipairs(accept) do if not (IsCompleted(id) or IsOnQuest(id)) then st.done = false end end
-        elseif s.have then
-          st.done = (GetItemCount(s.have[1], true) or 0) >= s.have[2]
-        elseif s.obj then
-          local o = IsCompleted(s.obj[1]) or (C_QuestLog.GetQuestObjectives(s.obj[1]) or {})[s.obj[2]]
-          st.done = o == true or (o and o.finished) or false
+        -- Item/objective steps can finish out of order (farm ash early), so they
+        -- tick only themselves; quest steps also tick everything before them.
+        elseif s.have or s.obj or s.need then
+          st.self = true
+          local used = s.need ~= nil -- turned in what uses it up
+          for _, name in ipairs(s.need or {}) do
+            if ns.QuestStatus(ns.STEP[name]) ~= "done" then used = false end
+          end
+          local o
+          if s.obj and IsOnQuest(s.obj[1]) then o = (C_QuestLog.GetQuestObjectives(s.obj[1]) or {})[s.obj[2]] end
+          st.done = used or (s.have and (GetItemCount(s.have[1], true) or 0) >= s.have[2])
+            or (s.obj and IsCompleted(s.obj[1])) or (o and o.finished) or false
         end
         out[#out + 1] = st
-        if st.done then last = #out end
+        if st.done and not st.self then last = #out end
       end
     end
   end
-  for i, st in ipairs(out) do st.past = i <= last end
+  for i, st in ipairs(out) do st.past = st.done == true or (i <= last and not st.self) end
   return out, last + 1
 end
 
