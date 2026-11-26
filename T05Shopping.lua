@@ -130,6 +130,11 @@ function ns.GuideSteps()
         elseif #accept > 0 then
           st.done = true
           for _, id in ipairs(accept) do if not (IsCompleted(id) or IsOnQuest(id)) then st.done = false end end
+        elseif s.have then
+          st.done = (GetItemCount(s.have[1], true) or 0) >= s.have[2]
+        elseif s.obj then
+          local o = IsCompleted(s.obj[1]) or (C_QuestLog.GetQuestObjectives(s.obj[1]) or {})[s.obj[2]]
+          st.done = o == true or (o and o.finished) or false
         end
         out[#out + 1] = st
         if st.done then last = #out end

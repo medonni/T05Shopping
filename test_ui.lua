@@ -57,7 +57,7 @@ local chatLink
 ChatEdit_InsertLink = function(l) chatLink = l; return true end
 C_Timer = { After = function(_, fn) fn() end }
 GetRealmName = function() return "Test" end
-C_QuestLog = { IsQuestFlaggedCompleted = function(id) return id == 84162 end, IsOnQuest = function() return false end }
+C_QuestLog = { IsQuestFlaggedCompleted = function(id) return id == 84162 end, IsOnQuest = function() return false end, GetQuestObjectives = function() end }
 UnitClass = function() return "Warrior", "WARRIOR" end
 local pinned
 TomTom = { AddWaypoint = function(_, map, x, y) pinned = { map, x, y } end }

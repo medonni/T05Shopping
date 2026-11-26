@@ -5,10 +5,11 @@ UnitFactionGroup = function() return "Alliance" end
 local bags = {}
 C_Item = { GetItemCount = function(id) return bags[id] or 0 end }
 GetRealmName = function() return "Test" end
-local completed, onQuest = {}, {}
+local completed, onQuest, objectives = {}, {}, {}
 C_QuestLog = {
   IsQuestFlaggedCompleted = function(id) return completed[id] or false end,
   IsOnQuest = function(id) return onQuest[id] or false end,
+  GetQuestObjectives = function(id) return objectives[id] end,
 }
 local now = 1700000000
 time = function() return now end
@@ -145,3 +146,24 @@ onQuest[84154], completed[8912] = nil, true
 assert(ns.Progress().n == 2, "Classic 8912 still counts as done")
 completed[8912] = nil
 print("ok")
+
+-- Item steps tick off from the bags: 25 Volcanic Ash completes "Pick up 25 Volcanic Ash"
+local function AshStep()
+  for _, st in ipairs(ns.GuideSteps()) do if st.text:find("Volcanic Ash") then return st end end
+end
+bags[22338] = 24
+assert(not AshStep().done, "24 ash is not enough")
+bags[22338] = 25
+assert(AshStep().done, "25 ash ticks the step")
+bags[22338] = nil
+
+-- Objective steps tick off from the quest log: 2 of 3 ectoplasm types done
+local function Step(name)
+  for _, st in ipairs(ns.GuideSteps()) do if st.text:find("Collect 12 |cff00d1ff" .. name) then return st end end
+end
+objectives[8924] = { { finished = true }, { finished = true }, { finished = false } }
+assert(Step("Scorched").done and Step("Frozen").done, "finished objectives tick")
+assert(not Step("Stable").done, "unfinished objective stays open")
+objectives[8924], completed[8924] = nil, true
+assert(Step("Stable").done, "turned in counts as done")
+completed[8924] = nil
